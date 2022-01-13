@@ -7,3 +7,4 @@
 *.rds
 /output
 *.Rproj
+/cache
