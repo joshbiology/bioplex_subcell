@@ -54,6 +54,10 @@ bioplex2
 
 rep_net
 
+
+combo_net_filtered <- combo_net %>% 
+  filter(Detected > 1)
+
 #Assemble into list
 networks <- list(Karate = karate_df,
      Islands = islands_df,
@@ -62,7 +66,8 @@ networks <- list(Karate = karate_df,
      Bioplex3 = bioplex3,
      HCT = hct,
      Bioplex2 = bioplex2,
-     Rep_Net = rep_net)
+     Rep_Net = rep_net,
+     Combo = combo_net_filtered)
 
 #Filter only to network edges that connect two genes with Gringas labels
 networks_filtered <- c(networks[1:2], map(networks[3:8], ~filter(., Gene.x %in% bioid_loc$entrezgene & Gene.y %in% bioid_loc$entrezgene)))
@@ -109,7 +114,7 @@ ProjectTemplate::cache("deepwalk_mat")
 #with Gringas labels.
 #The idea is to minimize uninformative edges before embedding.
 
-networks_filtered <- c(networks[1:2], map(networks[3:8], ~filter(., Gene.x %in% bioid_loc$entrezgene | Gene.y %in% bioid_loc$entrezgene)))
+networks_filtered <- c(networks[1:2], map(networks[3:9], ~filter(., Gene.x %in% bioid_loc$entrezgene | Gene.y %in% bioid_loc$entrezgene)))
 
 networks %>% map(igraph::graph_from_data_frame) %>% map_dbl(~igraph::V(.) %>% length)
 

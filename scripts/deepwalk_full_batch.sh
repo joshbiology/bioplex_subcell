@@ -1,9 +1,0 @@
-#!/bin/bash
-deepwalk --format edgelist --representation-size 128 --walk-length 40 --number-walks 16 --workers 8 --input ./output/edgelist/Karate.full.edgelist --output ./data/interim/deepwalk_embeddings/2022-01-09/Karate.full.deepwalk.txt
-deepwalk --format edgelist --representation-size 128 --walk-length 40 --number-walks 16 --workers 8 --input ./output/edgelist/Islands.full.edgelist --output ./data/interim/deepwalk_embeddings/2022-01-09/Islands.full.deepwalk.txt
-deepwalk --format edgelist --representation-size 128 --walk-length 40 --number-walks 16 --workers 8 --input ./output/edgelist/Autophagy.full.edgelist --output ./data/interim/deepwalk_embeddings/2022-01-09/Autophagy.full.deepwalk.txt
-deepwalk --format edgelist --representation-size 128 --walk-length 40 --number-walks 16 --workers 8 --input ./output/edgelist/DUB.full.edgelist --output ./data/interim/deepwalk_embeddings/2022-01-09/DUB.full.deepwalk.txt
-deepwalk --format edgelist --representation-size 128 --walk-length 40 --number-walks 16 --workers 8 --input ./output/edgelist/Bioplex3.full.edgelist --output ./data/interim/deepwalk_embeddings/2022-01-09/Bioplex3.full.deepwalk.txt
-deepwalk --format edgelist --representation-size 128 --walk-length 40 --number-walks 16 --workers 8 --input ./output/edgelist/HCT.full.edgelist --output ./data/interim/deepwalk_embeddings/2022-01-09/HCT.full.deepwalk.txt
-deepwalk --format edgelist --representation-size 128 --walk-length 40 --number-walks 16 --workers 8 --input ./output/edgelist/Bioplex2.full.edgelist --output ./data/interim/deepwalk_embeddings/2022-01-09/Bioplex2.full.deepwalk.txt
-deepwalk --format edgelist --representation-size 128 --walk-length 40 --number-walks 16 --workers 8 --input ./output/edgelist/Rep_Net.full.edgelist --output ./data/interim/deepwalk_embeddings/2022-01-09/Rep_Net.full.deepwalk.txt

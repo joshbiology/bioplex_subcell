@@ -51,6 +51,11 @@ bioplex2 <- read_tsv('data/raw/nature22366s2.tsv', col_types = "ccccccnnn") %>%
   dplyr::select(1:2, 5:6, 9) %>% 
   set_names(c('Gene.x', 'Gene.y', 'HUGO.x', 'HUGO.y', 'Score')) 
 
+combo_net <- read_tsv('./data/raw/gygi/bioplex/combo/bioPlex_comboNet_undirected.tsv') %>% 
+  dplyr::rename(Gene.x = GeneA, Gene.y = GeneB, Detected = `# Detected`, "HEK293T" = "293T")
+
+hist(combo_net$`# Detected`)
+
 bioplex_master <- full_join(bioplex3 %>% rename(Bioplex3 = Score),
                             hct %>% rename(HCT116 = Score)) %>% 
   left_join(rep_net %>% 
@@ -81,9 +86,13 @@ bait_hct <- read_tsv("./data/raw/gygi/bioplex/v2/baitList_BioPlexHCT.tsv", col_t
 bait_bioplex2 <- read_csv("./data/raw/NIHMS867766-supplement-supp_table1.csv", col_types = "ccc-") %>% 
   set_colnames(c("HUGO", "Gene", "Num_Interactions"))
 
+bait_combo_net <- read_tsv('./data/raw/gygi/bioplex/combo/bioPlex_comboNet_proteinSummary.tsv')
+
+
 bait_meta <- list("Bioplex3" = bait_bioplex3,
                   "HCT116" = bait_hct,
-                  "Bioplex2" = bait_bioplex2) %>% 
+                  "Bioplex2" = bait_bioplex2,
+                  "Combo" = bait_combo_net) %>% 
   enframe("Dataset") %>% 
   unnest() %>% 
   select(-Num_Interactions)

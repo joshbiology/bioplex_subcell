@@ -88,3 +88,40 @@ if (export_flag_subcell) {
   write_tsv(bioid_loc, "./output/localization/bioid_loc.tsv")
   write_tsv(hela_frac, "./output/localization/hela_frac.tsv")
 }
+
+# Preprocess Gringras data ------------------------------------------------
+
+
+# Visualizations on mixing matrix ---------------------------------------------
+
+all_genes <- bioid_loc %>% arrange(NMF_Rank) %>% pull(entrezgene) %>% na.omit()
+mito_genes <- bioid_loc %>% filter(NMF_Rank == 4) %>% pull(entrezgene) %>% na.omit()
+
+
+#pheatmap::pheatmap(bioid_mixing_mat[intersect(all_genes, rownames(bioid_mixing_mat)),] %>% 
+                     set_colnames(nmf_rank_to_name[as.character(1:20)]), cluster_cols = F, cluster_rows = F, show_rownames = F, angle_col = 45)
+
+bioid_mixing_mat %>% rowSums() %>% hist()
+
+#Localization correlation
+cor(bioid_mixing_mat) %>% set_colnames(nmf_rank_to_name[as.character(1:20)]) %>% 
+  set_rownames(nmf_rank_to_name[as.character(1:20)]) %>% pheatmap::pheatmap()
+
+
+manual_mapping <- list(Nucleus = c("8", "2", "9",  "10"),
+                       Cyto = c("16", "12", "5", "17"),
+                       Mito = c("4", "18", "13"),
+                       ER = c("3", "6", "15"),
+                       Traffic = c("1", "11", "14", "7", "20"),
+                       Misc = "19")
+
+#Manually defining compartments based on correlation
+localization_to_compartment <- enframe(manual_mapping) %>% unnest() %>% pull("name")
+names(localization_to_compartment) <-  enframe(manual_mapping) %>% unnest() %>% pull("value")
+
+
+bioid_loc <- bioid_loc %>%
+  mutate(Compartment = factor(localization_to_compartment[bioid_loc$NMF_Rank %>% as.character] %>% as.character(), levels = names(manual_mapping)))
+
+bioid_nmf_mixing_compartment <- aaply(bioid_mixing_mat, 1, function(x) map_dbl(manual_mapping, function(y)sum(x[as.numeric(y)])))
+
