@@ -98,10 +98,6 @@ all_genes <- bioid_loc %>% arrange(NMF_Rank) %>% pull(entrezgene) %>% na.omit()
 mito_genes <- bioid_loc %>% filter(NMF_Rank == 4) %>% pull(entrezgene) %>% na.omit()
 
 
-#pheatmap::pheatmap(bioid_mixing_mat[intersect(all_genes, rownames(bioid_mixing_mat)),] %>% 
-                     set_colnames(nmf_rank_to_name[as.character(1:20)]), cluster_cols = F, cluster_rows = F, show_rownames = F, angle_col = 45)
-
-bioid_mixing_mat %>% rowSums() %>% hist()
 
 #Localization correlation
 cor(bioid_mixing_mat) %>% set_colnames(nmf_rank_to_name[as.character(1:20)]) %>% 
